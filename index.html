@@ -40,7 +40,7 @@
 
 <div class="container">
   <h1>Отримувати сповіщення</h1>
-  <p>Натисніть кнопку нижче, щоб підписатись на push-сповіщення</p>
+  <p>Натисніть кнопку нижче, щоб підписатися на push-сповіщення</p>
   <button id="subscribeBtn">Підключити сповіщення</button>
   <p id="status" style="margin-top:15px;"></p>
   <button id="backBtn" style="display:none;">Повернутись в додаток</button>
@@ -64,25 +64,26 @@
   const backBtn = document.getElementById('backBtn');
 
   subscribeBtn.addEventListener('click', async () => {
-    statusText.textContent = "Запрашиваем разрешение...";
+    statusText.textContent = "Запит дозволу...";
     try {
       const permission = await OneSignal.push(() => OneSignal.registerForPushNotifications());
-      statusText.textContent = "Уведомления подключены!";
+      statusText.textContent = "Сповіщення підключені!";
       backBtn.style.display = "inline-block";
     } catch (err) {
-      statusText.textContent = "Не удалось подключить уведомления.";
+      statusText.textContent = "Не вдалося підключити сповіщення";
       console.error(err);
     }
   });
 
   backBtn.addEventListener('click', () => {
     // Ссылка на ваш лендинг Carrd
-    window.location.href = "https://ваш-лендинг.carrd.co";
+    window.location.href = "https://premium-park-app.carrd.co/";
   });
 </script>
 
 </body>
 
 </html>
+
 
 
