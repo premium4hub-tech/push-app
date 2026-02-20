@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Подключение уведомлений</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    button {
+      background: #ffcc00;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #ffdd33;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Получать уведомления</h1>
+  <p>Нажмите кнопку ниже, чтобы подписаться на push-уведомления.</p>
+  <button id="subscribeBtn">Подключить уведомления</button>
+  <p id="status" style="margin-top:15px;"></p>
+  <button id="backBtn" style="display:none;">Вернуться на лендинг</button>
+</div>
+
+<!-- OneSignal SDK -->
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+  // Замените YOUR_APP_ID на ваш App ID из OneSignal
+  const ONE_SIGNAL_APP_ID = "YOUR_APP_ID";
+
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: ONE_SIGNAL_APP_ID,
+    });
+  });
+
+  const subscribeBtn = document.getElementById('subscribeBtn');
+  const statusText = document.getElementById('status');
+  const backBtn = document.getElementById('backBtn');
+
+  subscribeBtn.addEventListener('click', async () => {
+    statusText.textContent = "Запрашиваем разрешение...";
+    try {
+      const permission = await OneSignal.push(() => OneSignal.registerForPushNotifications());
+      statusText.textContent = "Уведомления подключены!";
+      backBtn.style.display = "inline-block";
+    } catch (err) {
+      statusText.textContent = "Не удалось подключить уведомления.";
+      console.error(err);
+    }
+  });
+
+  backBtn.addEventListener('click', () => {
+    // Ссылка на ваш лендинг Carrd
+    window.location.href = "https://ваш-лендинг.carrd.co";
+  });
+</script>
+
+</body>
+</html>
